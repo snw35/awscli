@@ -1,0 +1,67 @@
+services: docker
+language: bash
+install:
+  - env | sort
+  - git clone https://github.com/docker-library/official-images.git ~/official-images
+  - docker run -it --rm --name nvchecker --mount type=bind,source=${PWD},target=/data/ -w /data -e NVCHECKER_GITHUB_TOKEN=${GH_TOKEN} snw35/nvchecker:latest nvchecker nvchecker.ini
+  - docker run -it --rm --name dfupdate --mount type=bind,source=${PWD},target=/data/ -w /data snw35/dfupdate:latest
+  - if [[ $(git status --porcelain | wc -l) -eq 0 ]] && [[ -z ${TRAVIS_TAG} ]]; then
+      echo "No local changes detected and no tag set, nothing to build, exiting.";
+      travis_terminate 0;
+    else
+      echo "Local changes or tagged commit detected, continuing...";
+    fi
+
+before_script:
+  - AWSCLI_VERSION=`grep "ENV AWSCLI_VERSION" Dockerfile | cut -d " " -f 3 | head -n 1`
+  - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2 | cut -d ":" -f 2`
+  - IMAGE="${TRAVIS_REPO_SLUG}:${AWSCLI_VERSION}"
+  - PROPOSED_TAG=${AWSCLI_VERSION}-${BASE_VERSION}
+  - git config --local user.name "${DOCKER_USERNAME}"
+  - git config --local user.email "snw35@use.startmail.com"
+  - git remote add upstream https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
+  - if [ $(git ls-remote --tags upstream "${PROPOSED_TAG}" | wc -l) -eq 0 ]; then
+      echo "Propsoed tag does not exist on remote, continuing.";
+    else
+      echo "Proposed tag already exists on remote, skipping container build.";
+      travis_terminate 0;
+    fi
+
+script:
+  - env | sort
+  - travis_retry docker build -t "$IMAGE" .
+  - ~/official-images/test/run.sh "$IMAGE" || travis_terminate 1;
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push "$IMAGE"
+  - docker tag "$IMAGE" "${TRAVIS_REPO_SLUG}:latest"
+  - docker push "${TRAVIS_REPO_SLUG}:latest"
+
+after_script:
+  - docker images
+
+before_deploy:
+  - cp new_ver.txt old_ver.txt
+  - git checkout master
+  - git add -A
+  - git commit --message "Software Updated"
+  - git tag $PROPOSED_TAG
+  - git push --quiet --set-upstream upstream
+  - git push --tags --quiet --set-upstream upstream
+
+deploy:
+  provider: releases
+  api_key: "$GH_TOKEN"
+  skip_cleanup: true
+  body: 'base image version: $BASE_VERSION
+    travis version: $AWSCLI_VERSION
+    image deployed: $IMAGE'
+
+branches:
+  except:
+  - "/^untagged/"
+
+env:
+  global:
+  - secure: S5Tcxc9U17J+Y1uj9OkVYehWF37Zt/wmwMeowE8yh9BglMVxRz92+6HZ6sdDMXquXHSAml6OMrtv5pKwkQ2xa4XFxbb0AqgmNST2TCb07bVNIdlYbeHinrWsOy0YpgLOWYdWe7LOyoMr1AiTRVJL/4JYfPsMCtvRZ5uJeY35hPlVnkgTwAAQPvn2zJNNd12Tmtm4ADNUldqTIeITW50RtI6AUhcLXAqpefbVL922eYNi2nIyl8MPaUPsZuK6SVr5rZztkFovf+JkYZhBstMgojRrLthngWCOovoqFmu5KvGz+CPeZajApjatbHXkGyz0aGP1wVWfIReBKTma1fOcoDEmY62oTtxJLhjH1fiXB99nEiE4pZ5mWEKcOibB69n5Pr8LPJdvzBMxDqtT07ZAFasI6qDybV9LEkmZNH4rpgwqkG2rD9lGSLvd0qyKkOmR6EKJ/VnYvLDS2EfQmZ5C/KsfkMt24Bjh1T9pk66xQBiqyX36IJEklN/pFJBP4Q4hjjO77V9N+uzvfkgFabucK8gzvJn4XJANzAvgC9lEjRIO4kn6r/Da/8243xZh/3Q4+hCEvGvQSbJgCEZ7Yd3Wquc6NGYg8ZHUozljVPNbPVCopeSCTFsAQKm3BdS8Lr6m6s4zTgihqisxYSG8TFzJ/X5n5ryuBs1zmfCd+D/5OZA=
+  - secure: Gd84fogUQv+N4mJNVYO6NlcmxYWiSfeGSO4V93qZjYg3+i1lnrTXbfGaCxJHF79D/F2q3OKZhMzK4MBOSFqNklzu3liDtI0XTMcActCzuZUgRvAohRDISf1ceMqyZ+othaSIGCXL4I85o6up5wSVatiUfGmGCJSWnlLqmpsYHrKtxxC6wMu9KBYZv+ebDKwFDa7Z30MbGD5rfatuoxKUHB7cUQgYvH/E+tRmtVGECm7UFUdGYYGL4m1/u0s6+sTY51YZVBq8ywqgl3X63kk2otw7AClsbvEBp4zz9UyxNsXZUN5gDzaCflO2J6rD40BcR2MkOVj1EEUZ/sc7CYtaUTuP40lEGoN/1oB15Z5iySd7at8nk2HoM5uzXT8X2ebBtpEe5kRzu7Ah4+8JyXbDv9Sl7j24r2YvtsAodj0HjUauSPK1Kil5VrBT+hlV/TegoWIOlI5qt9gNrqf70+8D9ddIel1nWij6gEgVuuCGmpRU9BYuL8RwWlnpqOnBV0n8kEUylpxy/KjfS7PaFtn7ZJ9ZFZgDDqnWBerCZIzewBGtPp1tJsTu1lrgG8IYGo4uYeS2uUrvf71s6ClecBr+WgrZ8N+Hg6gFT+E7e2MuQDOoiazyv2qSz67tGVj1of2JPVrWa7x4rrm75k5sOWhl+/4hlL5yDQDsLz6oLbWBYUw=
+  - secure: R8aQ7qRUW/GoZXFqgja0UWAP1TxfaImKusvY1vSvL/zb4V+RUc5OKl7ZqrxYUlSlkfR1Ot8dUYnhqbkREEqKH9pfVF2/rroyRYn4V6LIZZtUt9NLpeT98ewRtX6ufpZHVkRz990imLP0yGZlOTrdV6nffo/oJXb8jjYuis6h3nM88R4r4iOUJ5M0ZA1u3lk7iCiMwe0D52P/1vEhHJPi9KPj2VZCP3vgsAXS3jxsejGm3rYM2V5vfcsJDhcZbAtm8O3o0aL8TtFQiJ03PnsFov4yqnkTqPAco8kooOmx05iqeyhKWfAJe4eIS24zNLG+n/Sq89cJOR8oZwDVMCYQf9qOlCzDuk6obD+kA0m+Azg+KsHZulEyIvrKrao9ydhKj11OQDQPppoP+BmRjUiwo/Om/hp2G/33o6HPYjwqOkxaYeykNu7l4nPXBTQpGvp1+jt5pNFv6IHJ7YQ7C633tLPjdln3bNuwyO9uffVDDKiZN9/j96nBv2+OlHbvMg+6rcxH3qSvTQ8WLOC9XFQBtJ7DvfeFMGjV7lxhjNGfJIaR94dlKq/LJn0iEsOokHM4YUZw/frswxaSafC5LjhkT3F7d3lu04J2iVIjwhcysSvLPI1BLJ5yg9WTmZQ+MbRmbeiWUQ+mZWDMA/uW+FPPlb4fXRJ34UDd8Ff0/lTbWmk=
