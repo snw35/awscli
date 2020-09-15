@@ -13,10 +13,10 @@ install:
     fi
 
 before_script:
-  - AWSCLI_VERSION=`grep "ENV AWSCLI_VERSION" Dockerfile | cut -d " " -f 3 | head -n 1`
+  - AWS_CLI_VERSION=`grep "ENV AWS_CLI_VERSION" Dockerfile | cut -d " " -f 3 | head -n 1`
   - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2 | cut -d ":" -f 2`
-  - IMAGE="${TRAVIS_REPO_SLUG}:${AWSCLI_VERSION}"
-  - PROPOSED_TAG=${AWSCLI_VERSION}-${BASE_VERSION}
+  - IMAGE="${TRAVIS_REPO_SLUG}:${AWS_CLI_VERSION}"
+  - PROPOSED_TAG=${AWS_CLI_VERSION}-${BASE_VERSION}
   - git config --local user.name "${DOCKER_USERNAME}"
   - git config --local user.email "snw35@use.startmail.com"
   - git remote add upstream https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
@@ -53,7 +53,7 @@ deploy:
   api_key: "$GH_TOKEN"
   skip_cleanup: true
   body: 'base image version: $BASE_VERSION
-    travis version: $AWSCLI_VERSION
+    travis version: $AWS_CLI_VERSION
     image deployed: $IMAGE'
 
 branches:
