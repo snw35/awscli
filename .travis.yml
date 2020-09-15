@@ -14,9 +14,10 @@ install:
 
 before_script:
   - AWS_CLI_VERSION=`grep "ENV AWS_CLI_VERSION" Dockerfile | cut -d " " -f 3 | head -n 1`
+  - GLIBC_VERSION=`grep "ENV GLIBC_VERSION" Dockerfile | cut -d " " -f 3 | head -n 1`
   - BASE_VERSION=`grep "FROM" Dockerfile | cut -d " " -f 2 | cut -d ":" -f 2`
   - IMAGE="${TRAVIS_REPO_SLUG}:${AWS_CLI_VERSION}"
-  - PROPOSED_TAG=${AWS_CLI_VERSION}-${BASE_VERSION}
+  - PROPOSED_TAG=${AWS_CLI_VERSION}-${GLIBC_VERSION}-${BASE_VERSION}
   - git config --local user.name "${DOCKER_USERNAME}"
   - git config --local user.email "snw35@use.startmail.com"
   - git remote add upstream https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git > /dev/null 2>&1
