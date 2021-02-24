@@ -3,10 +3,10 @@ FROM alpine:3.13.2
 WORKDIR /opt
 
 # Install glibc
-ENV GLIBC_VERSION 2.32-r0
+ENV GLIBC_VERSION 2.33-r0
 ENV GLIBC_URL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}
 ENV GLIBC_FILENAME glibc-${GLIBC_VERSION}.apk
-ENV GLIBC_SHA256 2a3cd1111d2b42563e90a1ace54c3e000adf3a5a422880e7baf628c671b430c5
+ENV GLIBC_SHA256 3ce2b708b17841bc5978da0fa337fcb90fec5907daa396585db68805754322e0
 
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
   && wget $GLIBC_URL/$GLIBC_FILENAME \
