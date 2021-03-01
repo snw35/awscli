@@ -1,0 +1,13 @@
+[__config__]
+oldver = "old_ver.json"
+newver = "new_ver.json"
+
+[GLIBC]
+source = "github"
+github = "sgerrand/alpine-pkg-glibc"
+use_max_tag = true
+
+[AWSCLI]
+source = "github"
+github = "aws/aws-cli"
+use_max_tag = true

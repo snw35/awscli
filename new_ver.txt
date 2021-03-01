@@ -1,2 +1,0 @@
-AWSCLI 2.1.28
-GLIBC 2.33-r0
