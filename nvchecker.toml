@@ -7,7 +7,7 @@ source = "github"
 github = "sgerrand/alpine-pkg-glibc"
 use_max_tag = true
 
-[AWSCLI]
+[AWS_CLI]
 source = "github"
 github = "aws/aws-cli"
 use_max_tag = true
