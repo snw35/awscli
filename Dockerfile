@@ -3,10 +3,10 @@ FROM alpine:3.14.1
 WORKDIR /opt
 
 # Install glibc
-ENV GLIBC_VERSION 2.33-r0
+ENV GLIBC_VERSION 2.34-r0
 ENV GLIBC_URL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}
 ENV GLIBC_FILENAME glibc-${GLIBC_VERSION}.apk
-ENV GLIBC_SHA256 3ce2b708b17841bc5978da0fa337fcb90fec5907daa396585db68805754322e0
+ENV GLIBC_SHA256 3ef4a8d71777b3ccdd540e18862d688e32aa1c7bc5a1c0170271a43d0e736486
 
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
   && wget $GLIBC_URL/$GLIBC_FILENAME \
@@ -17,10 +17,10 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
   && rm -f glibc-bin-${GLIBC_VERSION}.apk
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.2.29
+ENV AWS_CLI_VERSION 2.2.31
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 d90a5bd3540eee30d97d75692045b45cf451c374606bea888648267146886894
+ENV AWS_CLI_SHA256 4cf74631929e75acbb687b11f2d6644c7159eb95e76df22da4f4a4a74f92a355
 
 RUN wget $AWS_CLI_URL/$AWS_CLI_FILENAME \
   && echo "$AWS_CLI_SHA256  ./$AWS_CLI_FILENAME" | sha256sum -c - \
