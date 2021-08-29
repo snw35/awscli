@@ -1,4 +1,4 @@
-FROM alpine:3.14.1
+FROM alpine:3.14.2
 
 WORKDIR /opt
 
@@ -17,10 +17,10 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
   && rm -f glibc-bin-${GLIBC_VERSION}.apk
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.2.31
+ENV AWS_CLI_VERSION 2.2.33
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 4cf74631929e75acbb687b11f2d6644c7159eb95e76df22da4f4a4a74f92a355
+ENV AWS_CLI_SHA256 e15f3602846061f56086de04a3b9aec2b225c202ba5b07ed735ea7e545e83027
 
 RUN wget $AWS_CLI_URL/$AWS_CLI_FILENAME \
   && echo "$AWS_CLI_SHA256  ./$AWS_CLI_FILENAME" | sha256sum -c - \
