@@ -3,10 +3,11 @@ FROM alpine:3.15.3
 WORKDIR /opt
 
 # Install glibc
-ENV GLIBC_VERSION 2.35-r0
+ENV GLIBC_VERSION 2.34-r0
 ENV GLIBC_URL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}
 ENV GLIBC_FILENAME glibc-${GLIBC_VERSION}.apk
-ENV GLIBC_SHA256 02fe2d91f53eab93c64d74485b80db575cfb4de40bc0d12bf55839fbe16cb041
+ENV GLIBC_SHA256 3ef4a8d71777b3ccdd540e18862d688e32aa1c7bc5a1c0170271a43d0e736486
+ENV GLIBC_UPGRADE false
 
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
   && wget $GLIBC_URL/$GLIBC_FILENAME \
@@ -33,7 +34,8 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN apk --update --no-cache add \
     bash \
-  && chmod +x /docker-entrypoint.sh
+  && chmod +x /docker-entrypoint.sh \
+  && aws --version
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
