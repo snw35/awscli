@@ -2,6 +2,11 @@
 oldver = "old_ver.json"
 newver = "new_ver.json"
 
+[BASE]
+source = "container"
+container = "library/alpine"
+include_regex = "\\d+\\.\\d+\\.?\\d?"
+
 [GLIBC]
 source = "github"
 github = "sgerrand/alpine-pkg-glibc"
