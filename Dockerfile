@@ -3,17 +3,18 @@ FROM alpine:3.16.2
 WORKDIR /opt
 
 # Install glibc
-ENV GLIBC_VERSION 2.34-r0
+ENV GLIBC_VERSION 2.35-r0
 ENV GLIBC_URL https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}
 ENV GLIBC_FILENAME glibc-${GLIBC_VERSION}.apk
-ENV GLIBC_SHA256 3ef4a8d71777b3ccdd540e18862d688e32aa1c7bc5a1c0170271a43d0e736486
-ENV GLIBC_UPGRADE false
+ENV GLIBC_SHA256 02fe2d91f53eab93c64d74485b80db575cfb4de40bc0d12bf55839fbe16cb041
 
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
   && wget $GLIBC_URL/$GLIBC_FILENAME \
   && wget $GLIBC_URL/glibc-bin-${GLIBC_VERSION}.apk \
   && echo "$GLIBC_SHA256  ./$GLIBC_FILENAME" | sha256sum -c - \
-  && apk add --no-cache ./$GLIBC_FILENAME ./glibc-bin-${GLIBC_VERSION}.apk \
+  && apk add --no-cache --force-overwrite ./$GLIBC_FILENAME ./glibc-bin-${GLIBC_VERSION}.apk \
+  && rm -f /lib64/ld-linux-x86-64.so.2 \
+  && ln -s /usr/glibc-compat/lib/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2 \
   && rm -f ./$GLIBC_FILENAME \
   && rm -f glibc-bin-${GLIBC_VERSION}.apk
 
