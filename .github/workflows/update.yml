@@ -10,10 +10,15 @@ on:
   workflow_dispatch:
     inputs:
       TAG_COMMAND:
-        description: 'An optional custom command whos output will be used to tag the built image.'
+        description: 'Override the image tag by supplying a command that will be run and the output taken.'
+        required: false
+      IMAGE_TAG:
+        description: "Override the image tag by supplying an environment variable within the Dockerfile that will be used."
         required: false
 
 jobs:
   call-upstream-workflow:
     uses: snw35/cicd/.github/workflows/github.yaml@main
+    with:
+      IMAGE_TAG: 'AWS_CLI_VERSION'
     secrets: inherit
