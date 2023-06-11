@@ -19,10 +19,10 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
   && rm -f glibc-bin-${GLIBC_VERSION}.apk
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.11.25
+ENV AWS_CLI_VERSION 2.11.27
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 0252933b8de10ea5d9f66cb48b1b9fe14e71d02646afeaf84486553ded527c4a
+ENV AWS_CLI_SHA256 fa74625da00bc3e5995a2097e1b163d197b6f6b4e9e38026d4fae1b656ff94a8
 
 RUN wget $AWS_CLI_URL/$AWS_CLI_FILENAME \
   && echo "$AWS_CLI_SHA256  ./$AWS_CLI_FILENAME" | sha256sum -c - \
