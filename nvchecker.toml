@@ -4,8 +4,8 @@ newver = "new_ver.json"
 
 [BASE]
 source = "container"
-container = "library/alpine"
-include_regex = "\\d+\\.\\d+\\.?\\d?"
+container = "library/debian"
+include_regex = "bookworm-\\d*-slim"
 
 [GLIBC]
 source = "github"
