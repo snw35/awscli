@@ -1,4 +1,4 @@
-FROM debian:bookworm-20240311-slim
+FROM debian:bookworm-20240408-slim
 
 WORKDIR /opt
 
@@ -8,10 +8,10 @@ RUN apt-get update \
   && apt clean
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.15.36
+ENV AWS_CLI_VERSION 2.15.38
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 a0ecf9dba2b5b4cc8714e03710d56a52fad7e3024c55a7e8a65e1cd44da3a80f
+ENV AWS_CLI_SHA256 3ad6c4b2b830884bf800fc9300f1b5340188f06da765dbee4a2f923fe081b56c
 
 RUN apt-get install -y \
     wget \
