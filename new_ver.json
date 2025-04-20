@@ -1,5 +1,5 @@
 {
-  "AWS_CLI": "2.26.1",
+  "AWS_CLI": "2.26.5",
   "BASE": "bookworm-20250407-slim",
   "GLIBC": "2.35-r1"
 }
