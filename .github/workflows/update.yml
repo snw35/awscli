@@ -18,7 +18,7 @@ on:
 
 jobs:
   call-upstream-workflow:
-    uses: snw35/cicd/.github/workflows/github.yaml@main
+    uses: snw35/cicd/.github/workflows/github.yaml@refactor
     with:
       IMAGE_TAG: 'AWS_CLI_VERSION'
     secrets: inherit
