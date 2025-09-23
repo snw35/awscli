@@ -1,5 +1,20 @@
 {
-  "AWS_CLI": "2.28.3",
-  "BASE": "bookworm-20250721-slim",
-  "GLIBC": "2.35-r1"
+  "version": 2,
+  "data": {
+    "AWS_CLI": {
+      "version": "2.31.0",
+      "gitref": "refs/tags/2.31.0",
+      "revision": "83d11fedd2429f5eb052c50151d1bfcc998ff32d",
+      "url": "https://github.com/aws/aws-cli/releases/tag/2.31.0"
+    },
+    "BASE": {
+      "version": "bookworm-20250908-slim"
+    },
+    "GLIBC": {
+      "version": "2.35-r1",
+      "gitref": "refs/tags/2.35-r1",
+      "revision": "9aeb8c4f39d19ad9833daf9689e0792482578b93",
+      "url": "https://github.com/sgerrand/alpine-pkg-glibc/releases/tag/2.35-r1"
+    }
+  }
 }
