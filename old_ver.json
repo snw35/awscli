@@ -2,13 +2,13 @@
   "version": 2,
   "data": {
     "AWS_CLI": {
-      "version": "2.31.37",
-      "gitref": "refs/tags/2.31.37",
-      "revision": "fb9bfc1ac5311c5638e9c57115be73eae6649f36",
-      "url": "https://github.com/aws/aws-cli/releases/tag/2.31.37"
+      "version": "2.32.3",
+      "gitref": "refs/tags/2.32.3",
+      "revision": "1b5cba361385b450a52efc9c06a1e61c62aa3435",
+      "url": "https://github.com/aws/aws-cli/releases/tag/2.32.3"
     },
     "BASE": {
-      "version": "bookworm-20251103-slim"
+      "version": "bookworm-20251117-slim"
     },
     "GLIBC": {
       "version": "2.35-r1",
