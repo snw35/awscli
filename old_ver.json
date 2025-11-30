@@ -2,10 +2,10 @@
   "version": 2,
   "data": {
     "AWS_CLI": {
-      "version": "2.32.3",
-      "gitref": "refs/tags/2.32.3",
-      "revision": "1b5cba361385b450a52efc9c06a1e61c62aa3435",
-      "url": "https://github.com/aws/aws-cli/releases/tag/2.32.3"
+      "version": "2.32.6",
+      "gitref": "refs/tags/2.32.6",
+      "revision": "b20daffa05ddfa6f94e824d4fc75902f04e93f83",
+      "url": "https://github.com/aws/aws-cli/releases/tag/2.32.6"
     },
     "BASE": {
       "version": "bookworm-20251117-slim"
