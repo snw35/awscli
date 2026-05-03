@@ -2,10 +2,10 @@
   "version": 2,
   "data": {
     "AWS_CLI": {
-      "version": "2.34.37",
-      "gitref": "refs/tags/2.34.37",
-      "revision": "abf60d6e89ba4fdf66bc03ace251de46c8008f08",
-      "url": "https://github.com/aws/aws-cli/releases/tag/2.34.37"
+      "version": "2.34.41",
+      "gitref": "refs/tags/2.34.41",
+      "revision": "ed7704dba1ddd54c7e2060b3f68a4ecebaf18ecc",
+      "url": "https://github.com/aws/aws-cli/releases/tag/2.34.41"
     },
     "BASE": {
       "version": "trixie-20260421-slim"
