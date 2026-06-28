@@ -1,4 +1,4 @@
-FROM debian:trixie-20260610-slim
+FROM debian:trixie-20260623-slim
 
 WORKDIR /opt
 
@@ -8,10 +8,10 @@ RUN apt-get update \
   && apt clean
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.35.9
+ENV AWS_CLI_VERSION 2.35.11
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 b331d4822a22612915f22f89cfd0e07895c7b6837999fca8fb9f6c2a370a54c0
+ENV AWS_CLI_SHA256 d4bbcb5532c8bf43f9149f1b1e0d09f77f388df088656e349570637c06b76d2d
 
 RUN apt-get install -y \
     wget \
