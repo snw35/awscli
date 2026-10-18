@@ -8,10 +8,10 @@ RUN apt-get update \
   && apt clean
 
 # Install AWS CLI v2
-ENV AWS_CLI_VERSION 2.37.12
+ENV AWS_CLI_VERSION 2.38.1
 ENV AWS_CLI_URL https://awscli.amazonaws.com
 ENV AWS_CLI_FILENAME awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip
-ENV AWS_CLI_SHA256 e6d3c672fb36ed4b12c354c39a993eee2b34da1437cafb10bac4480840cfa83f
+ENV AWS_CLI_SHA256 b11ed416d91f4251da363a17706938eeaf0e520745754c104c0c1890dd8363c7
 
 RUN apt-get install -y \
     wget \
