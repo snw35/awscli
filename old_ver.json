@@ -2,13 +2,13 @@
   "version": 2,
   "data": {
     "AWS_CLI": {
-      "version": "2.38.1",
-      "gitref": "refs/tags/2.38.1",
-      "revision": "e9597bf6d8402e872f31c6d935d2a29a91b0ce84",
-      "url": "https://github.com/aws/aws-cli/releases/tag/2.38.1"
+      "version": "2.38.5",
+      "gitref": "refs/tags/2.38.5",
+      "revision": "45f9dd718b656d4c1d02176cf80bbeb598597a31",
+      "url": "https://github.com/aws/aws-cli/releases/tag/2.38.5"
     },
     "BASE": {
-      "version": "trixie-20261005-slim"
+      "version": "trixie-20261020-slim"
     },
     "GLIBC": {
       "version": "2.35-r1",
